@@ -22,12 +22,13 @@
                 e2 (max-element (rest a-seq))]
             (if (>= e1 e2) e1 e2))))
 
+(defn seq-count [a-seq]
+  (if (empty? a-seq)
+    0
+    (+ 1 (seq-count (rest a-seq)))))
+
 (defn seq-max [seq-1 seq-2]
-  (let [seq-count (fn s-count [a-seq]
-                    (if (empty? a-seq)
-                      0
-                      (+ 1 (s-count (rest a-seq)))))]
-    (if (> (seq-count seq-1) (seq-count seq-2)) seq-1 seq-2)))
+  (if (> (seq-count seq-1) (seq-count seq-2)) seq-1 seq-2))
 
 (defn longest-sequence [a-seq]
   (cond
@@ -60,13 +61,21 @@
     :else a-seq))
 
 (defn seq= [a-seq b-seq]
-  :-)
+  (cond
+    (and (empty? b-seq) (empty? a-seq)) true
+    (not (= (seq-count a-seq) (seq-count b-seq))) false
+    (not (= (first a-seq) (first b-seq))) false
+    :else (seq= (rest a-seq) (rest b-seq))))
 
 (defn my-map [f seq-1 seq-2]
-  [:-])
+  (if (or (empty? seq-1) (empty? seq-2))
+    (empty seq-1)
+    (cons (f (first seq-1) (first seq-2)) (my-map f (rest seq-1) (rest seq-2)))))
 
 (defn power [n k]
-  :-)
+  (if (zero? k)
+    1
+    (* n (power n (dec k)))))
 
 (defn fib [n]
   :-)
