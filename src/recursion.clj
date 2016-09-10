@@ -93,14 +93,26 @@
     ()
     (cons (dec up-to) (my-range (dec up-to)))))
 
+(defn keep-n [a-seq n]
+  (if (== n (seq-count a-seq))
+    a-seq
+    (keep-n (rest a-seq) n)))
+
 (defn tails [a-seq]
-  [:-])
+  (let [f (fn [n] (keep-n a-seq n))]
+    (reverse (map f (my-range (inc (seq-count a-seq)))))))
+
+(defn drop-n [a-seq n]
+  (reverse (keep-n (reverse a-seq) n)))
 
 (defn inits [a-seq]
-  [:-])
+  (let [f (fn [n] (drop-n a-seq n))]
+    (map f (my-range (inc (seq-count a-seq))))))
 
 (defn rotations [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    [a-seq]
+    (my-map concat (rest (tails a-seq)) (rest (inits a-seq)))))
 
 (defn my-frequencies-helper [freqs a-seq]
   [:-])
