@@ -140,7 +140,12 @@
     (my-take-helper [] n coll)))
 
 (defn my-drop [n coll]
-  [:-])
+  (let [my-drop-helper
+        (fn helper [n-dropped n coll]
+          (if (or (empty? coll) (== n n-dropped))
+            coll
+            (helper (inc n-dropped) n (rest coll))))]
+    (my-drop-helper 0 n coll)))
 
 (defn halve [a-seq]
   [:-])
